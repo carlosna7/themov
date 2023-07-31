@@ -1,6 +1,6 @@
 'use client'
 import MovieCard from '@/components/MovieCard';
-import { useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 
 const moviesURL = "https://api.themoviedb.org/3/movie/";
 const apiKey =  "590fe327d68ab66718c93cde9cecca3b";
@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const topRatedUrl = `${moviesURL}top_rated?api_key=${apiKey}`
+    const topRatedUrl = `${moviesURL}popular?api_key=${apiKey}`
     getTopRatedMovies(topRatedUrl)
   }, [])
   

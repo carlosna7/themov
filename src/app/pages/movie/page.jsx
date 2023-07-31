@@ -1,5 +1,8 @@
+'use client'
 
-import React from 'react'
+import ( useState )
+
+import React, { useState } from 'react'
 
 const Movie = () => {
   return (
