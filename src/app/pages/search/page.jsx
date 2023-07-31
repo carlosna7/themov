@@ -25,30 +25,21 @@ const Search = () => {
   }, [query])
 
   return (
-    <div className='text-white'>
-      {/* {movies === 0 && <p className='flex items-center justify-center pt-32 text-6xl'>Carregando...</p>} */}
+    <div className='text-white'>     
 
-      
-        <div> 
-          <div id='text'>
-            <h2 className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'> <span className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'>Resultados para: {query}</span> </h2>
-          </div>
-
-          <div id='content' className='flex flex-wrap justify-between w-screen p-16'>
-            {movies.length > 0 && 
-              movies.map((movie) => <MovieCard key={movie.id} movie={movie} />
-              )
-            }
-
-            {/* {movies.length > 0 ? (
-              movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
-            ) : (
-              <p>Nenhum resultado encontrado.</p>
-            )} */}
-
-          </div>
+      <div> 
+        <div id='text'>
+          <h2 className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'> <span className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'>Resultados para: {query}</span> </h2>
         </div>
-       
+
+        <div id='content' className='flex flex-wrap justify-between w-screen p-16'>
+          {movies.length > 0 && 
+            movies.map((movie) => <MovieCard key={movie.id} movie={movie} />
+            )
+          }
+        </div>
+      </div>
+      
     </div>
   )
 }
