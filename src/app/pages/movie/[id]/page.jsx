@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import MovieCard from '@/components/MovieCard';
 import { BsFillFileEarmarkTextFill, BsGraphUp, BsHourglassSplit, BsWallet2 } from 'react-icons/Bs';
 
@@ -9,8 +9,7 @@ const apiKey =  "590fe327d68ab66718c93cde9cecca3b";
 
 const Movie = () => {
 
-  const router = useRouter()
-  const { id } = router.query
+  const { id } = useParams()
   const [movie, setMovie] = useState(null)
 
   const getMovie = async (url) => {
