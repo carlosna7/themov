@@ -19,45 +19,52 @@ const Movie = () => {
     setMovie(data);
   };
 
+  const format = ((number) => {
+    return number.toLocaleString('pt-BR', {
+      style: "currency",
+      currency: "BRL"
+    })
+  })
+
   useEffect(() => {
     const movieUrl = `${moviesURL}${id}?api_key=${apiKey}`
     getMovie(movieUrl)
   }, []);
 
   return (
-    <div>
+    <div className='text-white'>
       {movie && (
         <>
-          <MovieCard movie={movie} showLink={false} />
+          <MovieCard className='' movie={movie} showLink={false} />
 
           <p className="tagline">{movie.tagline}</p>
 
-          <div className="info">
+          <div className="mb-8">
             <h3>
               <BsWallet2 /> Orçamento:
             </h3>
-            <p>{movie.budget}</p>
+            <p>{format(movie.budget)}</p>
           </div>
 
-          <div className="info">
+          <div className="mb-8">
             <h3>
               <BsGraphUp /> Receita:
             </h3>
-            <p>{movie.revenue}</p>
+            <p>{format(movie.revenue)}</p>
           </div>
 
-          <div className="info">
+          <div className="mb-8">
             <h3>
               <BsHourglassSplit /> Duração:
             </h3>
             <p>{movie.runtime} minutos</p>
           </div>
 
-          <div className="info description">
+          <div className=" ">
             <h3>
               <BsFillFileEarmarkTextFill /> Descrição:
             </h3>
-            <p>{movie.overview}</p>
+            <p>{format(movie.overview)}</p>
           </div>
         </>
       )}

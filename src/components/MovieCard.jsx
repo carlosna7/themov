@@ -7,7 +7,7 @@ const imageUrl = "https://image.tmdb.org/t/p/w500/"
 const MovieCard = ({movie, showLink = true}) => {
   return (
     <div className='flex flex-col rounded-lg justify-center w-[23%] gap-2 mb-8 bg-slate-950'>
-        <img className='max-w-full rounded-t-lg mb-2' src={imageUrl + movie.poster_path} alt={movie.title} />
+        <img className='w-full rounded-t-lg mb-2' src={imageUrl + movie.poster_path} alt={movie.title} />
         
         <h2 className='font-bold mx-3'>{movie.title}</h2>
         
