@@ -13,7 +13,7 @@ const MovieCard = ({movie, showLink = true}) => {
         
         <p className='flex items-baseline gap-2 mx-3'><BsStarFill /> {movie.vote_average}</p>
         
-        {showLink && <Link className='flex justify-center font-bold p-2 mb-3 mx-3 bg-sky-300 border-2 border-sky-300 rounded-lg text-black hover:bg-transparent hover:border-blue-400 hover:text-blue-400 duration-500' href={`/pages/movie/${movie.id}/`}>Ver mais</Link>}
+        {showLink && <Link className='flex justify-center font-bold p-2 mb-3 mx-3 bg-sky-300 border-2 border-sky-300 rounded-lg text-black hover:bg-transparent hover:border-blue-400 hover:text-blue-400 duration-500' href={`/pages/movie/${movie.id}`}>Ver mais</Link>}
     </div>
   )
 }

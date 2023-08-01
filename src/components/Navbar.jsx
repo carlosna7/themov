@@ -26,7 +26,6 @@ export default function Navbar() {
 
       <form className='flex gap-4'
       onSubmit={handleSubmit}>
-        <Link href="/page">movie</Link>
         <input 
           className='p-2 rounded-lg bg-sky-950 focus:outline-none focus:text-white placeholder:text-slate-300' 
           type='text' 
