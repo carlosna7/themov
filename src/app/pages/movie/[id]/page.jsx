@@ -32,40 +32,42 @@ const Movie = () => {
   }, []);
 
   return (
-    <div className='text-white'>
+    <div className='text-white p-32 max-w-full'>
       {movie && (
         <>
-          <MovieCard className='' movie={movie} showLink={false} />
+        <div className='flex flex-col justify-center items-center'>
+          <MovieCard movie={movie} showLink={false} cardSize='w-[50%]' />
 
-          <p className="tagline">{movie.tagline}</p>
+          <p className="text-xl mb-6 ">{movie.tagline}</p>
+        </div>
+        
+        <div className="mb-6">
+          <h3 className='flex gap-4 items-center font-bold mb-2'>
+            <BsWallet2 className='text-sky-300 h-8 w-8' /> Orçamento:
+          </h3>
+          <p className='text-justify'>{format(movie.budget)}</p>
+        </div>
 
-          <div className="mb-8">
-            <h3>
-              <BsWallet2 /> Orçamento:
-            </h3>
-            <p>{format(movie.budget)}</p>
-          </div>
+        <div className="mb-6">
+          <h3 className='flex gap-4 items-center font-bold mb-2'>
+            <BsGraphUp className='text-sky-300 h-8 w-8' /> Receita:
+          </h3>
+          <p className='text-justify'>{format(movie.revenue)}</p>
+        </div>
 
-          <div className="mb-8">
-            <h3>
-              <BsGraphUp /> Receita:
-            </h3>
-            <p>{format(movie.revenue)}</p>
-          </div>
+        <div className="mb-6">
+          <h3 className='flex gap-4 items-center font-bold mb-2'>
+            <BsHourglassSplit className='text-sky-300 h-8 w-8' /> Duração:
+          </h3>
+          <p className='text-justify'>{movie.runtime} minutos</p>
+        </div>
 
-          <div className="mb-8">
-            <h3>
-              <BsHourglassSplit /> Duração:
-            </h3>
-            <p>{movie.runtime} minutos</p>
-          </div>
-
-          <div className=" ">
-            <h3>
-              <BsFillFileEarmarkTextFill /> Descrição:
-            </h3>
-            <p>{format(movie.overview)}</p>
-          </div>
+        <div className="6">
+          <h3 className='flex gap-4 items-center font-bold mb-2'>
+            <BsFillFileEarmarkTextFill className='text-sky-300 h-8 w-8' /> Descrição:
+          </h3>
+          <p className='text-justify'>{format(movie.overview)}</p>
+        </div>
         </>
       )}
     </div>

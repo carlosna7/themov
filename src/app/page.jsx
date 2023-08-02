@@ -35,10 +35,10 @@ export default function Home() {
           <div id='content' className='flex flex-wrap justify-between w-screen p-16'>
             {topMovies.map((movie) => 
               <MovieCard key={movie.id} movie={movie} /> 
-            )};
+            )}
           </div>
         </div>
-      )};
+      )}
     </div>
   )
 };
