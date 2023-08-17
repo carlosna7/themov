@@ -1,6 +1,6 @@
 'use client'
-import Link from 'next/link'
-import { BsStarFill } from 'react-icons/Bs'
+import Link from 'next/link';
+import { BsStarFill } from 'react-icons/bs';
 
 const imageUrl = "https://image.tmdb.org/t/p/w500/"
 

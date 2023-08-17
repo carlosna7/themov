@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import MovieCard from '@/components/MovieCard';
-import { BsFillFileEarmarkTextFill, BsGraphUp, BsHourglassSplit, BsWallet2 } from 'react-icons/Bs';
+import { BsFillFileEarmarkTextFill, BsGraphUp, BsHourglassSplit, BsWallet2 } from 'react-icons/bs';
 
 const moviesURL = "https://api.themoviedb.org/3/movie/";
 const apiKey =  "590fe327d68ab66718c93cde9cecca3b";
