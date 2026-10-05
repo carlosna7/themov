@@ -7,9 +7,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        paper: '#13110f',
+        ink: '#ece3d2',
+        muted: '#8c8376',
+        line: '#2b2723',
+        accent: '#e2513a',
+      },
       fontFamily: {
-        sans: ['Roboto']
-      }
+        sans: ['var(--font-archivo)', 'sans-serif'],
+        serif: ['var(--font-newsreader)', 'serif'],
+        mono: ['var(--font-plex-mono)', 'monospace'],
+      },
     },
   },
   plugins: [],

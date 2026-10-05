@@ -1,21 +1,42 @@
-'use client'
 import Link from 'next/link';
-import { BsStarFill } from 'react-icons/bs';
+import { imageUrl } from '@/lib/tmdb';
 
-const imageUrl = "https://image.tmdb.org/t/p/w500/"
-
-const MovieCard = ({movie, showLink = true, cardSize = 'w-[23%]'}) => {
+const MovieCard = ({ movie, index }) => {
+  const poster = imageUrl(movie.poster_path, 'w342');
+  const year = movie.release_date?.slice(0, 4);
 
   return (
-    <div className={`flex flex-col rounded-lg justify-center ${cardSize} gap-2 mb-8 bg-slate-950`}>
-        <img className='w-full rounded-t-lg mb-2' src={imageUrl + movie.poster_path} alt={movie.title} />
-        
-        <h2 className='font-bold mx-3'>{movie.title}</h2>
-        
-        <p className='flex items-baseline gap-2 mx-3'><BsStarFill /> {movie.vote_average}</p>
-        
-        {showLink && <Link className='flex justify-center font-bold p-2 mb-3 mx-3 bg-sky-300 border-2 border-sky-300 rounded-lg text-black hover:bg-transparent hover:border-blue-400 hover:text-blue-400 duration-500' href={`/pages/movie/${movie.id}`}>Ver mais</Link>}
-    </div>
+    <Link href={`/pages/movie/${movie.id}`} className='group block'>
+      <div className='relative aspect-[2/3] overflow-hidden bg-line'>
+        {poster ? (
+          <img
+            src={poster}
+            alt={movie.title}
+            loading='lazy'
+            className='h-full w-full object-cover transition duration-500 group-hover:scale-[1.03] group-hover:brightness-110'
+          />
+        ) : (
+          <div className='flex h-full items-end p-3 display text-2xl text-muted'>{movie.title}</div>
+        )}
+
+        {index !== undefined && (
+          <span className='absolute left-0 top-0 bg-paper px-2 py-1 font-mono text-[11px] text-ink'>
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        )}
+      </div>
+
+      <div className='mt-3 flex items-baseline justify-between gap-3 label'>
+        <span>{year || 's/ data'}</span>
+        <span className={movie.vote_average >= 7 ? 'text-accent' : ''}>
+          {movie.vote_average ? movie.vote_average.toFixed(1) : '–'}
+        </span>
+      </div>
+
+      <h3 className='mt-1 text-[15px] font-semibold leading-snug decoration-accent decoration-2 underline-offset-4 group-hover:underline'>
+        {movie.title}
+      </h3>
+    </Link>
   )
 }
 

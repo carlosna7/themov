@@ -1,45 +1,48 @@
 'use client'
-import MovieCard from '@/components/MovieCard';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect } from "react"
-
-const searchURL = "https://api.themoviedb.org/3/search/movie"
-const apiKey =  "590fe327d68ab66718c93cde9cecca3b"
+import { tmdb } from '@/lib/tmdb';
+import { MovieGrid, MovieGridSkeleton } from '@/components/MovieGrid';
 
 const Search = () => {
-  const searchParams = useSearchParams();  
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") || "";
 
-  const [movies, setMovies] = useState([]);
-  const query = searchParams.get("q")
-
-  const getSearchedMovies = async (url) => {
-    const response = await fetch(url)
-    const data = await response.json()
-
-    setMovies(data.results);
-  };
+  const [movies, setMovies] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const searchQueryURL = `${searchURL}?api_key=${apiKey}&query=${query}`
-    getSearchedMovies(searchQueryURL)
+    if (!query) return;
+
+    setMovies(null);
+    setError(null);
+
+    tmdb('/search/movie', { query })
+      .then((data) => setMovies(data.results))
+      .catch((err) => setError(err.message));
   }, [query])
 
+  const count = movies && `${movies.length} ${movies.length === 1 ? 'resultado' : 'resultados'}`;
+
   return (
-    <div className='text-white'>     
+    <div className='mx-auto max-w-[1400px] px-4 sm:px-8'>
+      <header className='border-b border-line py-12 md:py-16'>
+        <p className='label mb-4'>Busca{count && ` · ${count}`}</p>
+        <h1 className='font-serif text-[clamp(40px,7vw,88px)] italic leading-none'>
+          &ldquo;{query}&rdquo;
+        </h1>
+      </header>
 
-      <div> 
-        <div id='text'>
-          <h2 className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'> <span className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'>Resultados para: {query}</span> </h2>
-        </div>
-
-        <div id='content' className='flex flex-wrap justify-between w-screen p-16'>
-          {movies.length > 0 && 
-            movies.map((movie) => <MovieCard key={movie.id} movie={movie} />
-            )
-          }
-        </div>
-      </div>
-      
+      <section className='pt-10'>
+        {error && <p className='font-mono text-sm text-accent'>Erro na busca: {error}</p>}
+        {!error && !movies && <MovieGridSkeleton />}
+        {movies?.length === 0 && (
+          <p className='max-w-md font-serif text-xl italic text-ink/70'>
+            Nada encontrado. Tente o título original ou menos palavras.
+          </p>
+        )}
+        {movies?.length > 0 && <MovieGrid movies={movies} />}
+      </section>
     </div>
   )
 }

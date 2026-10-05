@@ -1,44 +1,41 @@
 'use client'
-import MovieCard from '@/components/MovieCard';
-import React, { useState, useEffect} from 'react';
-
-const moviesURL = "https://api.themoviedb.org/3/movie/";
-const apiKey =  "590fe327d68ab66718c93cde9cecca3b";
+import { useState, useEffect } from 'react';
+import { tmdb } from '@/lib/tmdb';
+import { MovieGrid, MovieGridSkeleton } from '@/components/MovieGrid';
 
 export default function Home() {
-
   const [topMovies, setTopMovies] = useState([]);
-
-  const getTopRatedMovies = async (url) => {
-    const response = await fetch(url)
-    const data = await response.json()
-
-    setTopMovies(data.results);
-  };
+  const [error, setError] = useState(null);
+  const [today, setToday] = useState('');
 
   useEffect(() => {
-    const topRatedUrl = `${moviesURL}popular?api_key=${apiKey}`
-    getTopRatedMovies(topRatedUrl)
+    setToday(new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }));
+
+    tmdb('/movie/popular')
+      .then((data) => setTopMovies(data.results))
+      .catch((err) => setError(err.message));
   }, [])
-  
 
   return (
-    <div className='text-white'>
-      {topMovies.length === 0 && <p className='flex items-center justify-center pt-32 text-6xl'>Carregando...</p>}
-
-      {topMovies.length > 0 && (
-        <div> 
-          <div id='text'>
-            <h2 className='flex items-center justify-center pt-8 text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-500'>Melhores filmes:</h2>
-          </div>
-
-          <div id='content' className='flex flex-wrap justify-between w-screen p-16'>
-            {topMovies.map((movie) => 
-              <MovieCard key={movie.id} movie={movie} /> 
-            )}
-          </div>
+    <div className='mx-auto max-w-[1400px] px-4 sm:px-8'>
+      <header className='grid gap-6 border-b border-line py-12 md:grid-cols-[1fr_320px] md:items-end md:py-16'>
+        <div>
+          <p className='label mb-4'>Programação{today && ` · ${today}`}</p>
+          <h1 className='display text-[clamp(56px,11vw,150px)]'>
+            Em cartaz<span className='text-accent'>.</span>
+          </h1>
         </div>
-      )}
+
+        <p className='font-serif text-lg italic leading-relaxed text-ink/80'>
+          Os vinte filmes mais procurados da semana segundo o TMDB. Escolha um pôster para abrir a ficha técnica.
+        </p>
+      </header>
+
+      <section className='pt-10'>
+        {error && <p className='font-mono text-sm text-accent'>Não deu para carregar os filmes: {error}</p>}
+        {!error && topMovies.length === 0 && <MovieGridSkeleton />}
+        {topMovies.length > 0 && <MovieGrid movies={topMovies} numbered />}
+      </section>
     </div>
   )
 };

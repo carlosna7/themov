@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react';
 import Link from 'next/link';
-import { BiMoviePlay, BiSearch } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
+import { BiSearch } from 'react-icons/bi';
 
 export default function Navbar() {
   const [search, setSearch] = useState("")
@@ -11,33 +11,37 @@ export default function Navbar() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    
-    if(!search) return;
 
-    router.push(`/pages/search?q=${search}`);
+    const term = search.trim();
+    if (!term) return;
+
+    router.push(`/pages/search?q=${encodeURIComponent(term)}`);
     setSearch("");
   };
 
   return (
-    <nav id='navbar' className='flex justify-between items-center px-16 py-4 bg-black'>
-      <div>
-        <Link className='flex items-center gap-4 text-4xl font-bold text-sky-300 hover:text-blue-400 duration-500 ' href="/"><BiMoviePlay className='w-12 h-12'/>THEMOV</Link>
+    <nav className='sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm'>
+      <div className='mx-auto max-w-[1400px] px-4 sm:px-8 h-16 flex items-center justify-between gap-6'>
+        <Link href="/" className='group flex items-center gap-2'>
+          <span className='h-2.5 w-2.5 rounded-full bg-accent group-hover:animate-pulse' />
+          <span className='display text-[28px] leading-none tracking-wide'>Themov</span>
+        </Link>
+
+        <form onSubmit={handleSubmit} className='flex items-center gap-2 border-b border-muted/50 focus-within:border-ink transition-colors w-full max-w-[260px]'>
+          <input
+            className='w-full bg-transparent py-1.5 font-mono text-sm placeholder:text-muted focus:outline-none'
+            type='text'
+            placeholder='buscar um filme'
+            aria-label='Buscar um filme'
+            onChange={(evt) => setSearch(evt.target.value)}
+            value={search}
+          />
+
+          <button type='submit' aria-label='Buscar' className='text-muted hover:text-accent transition-colors'>
+            <BiSearch className='w-5 h-5' />
+          </button>
+        </form>
       </div>
-
-      <form className='flex gap-4'
-      onSubmit={handleSubmit}>
-        <input 
-          className='p-2 rounded-lg bg-sky-950 focus:outline-none focus:text-white placeholder:text-slate-300' 
-          type='text' 
-          placeholder='Busque um filme...' 
-          onChange={(evt) => setSearch(evt.target.value)}
-          value={search}
-        />
-
-        <button className='flex justify-center items-center cursor-pointer bg-sky-300 border-2 border-sky-300 rounded-lg w-10 h-10 text-black hover:bg-transparent hover:border-blue-400 hover:text-blue-400 duration-500' type='submit'>
-          <BiSearch className='w-8 h-8'/>
-        </button>
-      </form>
     </nav>
   )
 }
