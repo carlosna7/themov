@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
 
         <footer className='border-t border-line mt-24'>
           <div className='container-x py-10 flex flex-col sm:flex-row justify-between gap-3 label'>
-            <span>Themov &copy; {new Date().getFullYear()}</span>
+            <span>theMov &copy; {new Date().getFullYear()}</span>
             <span>Dados fornecidos pelo TMDB. Não endossado ou certificado pelo TMDB.</span>
           </div>
         </footer>

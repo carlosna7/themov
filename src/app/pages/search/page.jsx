@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { tmdb } from '@/lib/tmdb';
 import { MovieGrid, MovieGridSkeleton } from '@/components/MovieGrid';
-import ShapeGrid from '@/components/ShapeGrid';
 
 const Search = () => {
   const searchParams = useSearchParams();
@@ -27,12 +26,8 @@ const Search = () => {
 
   return (
     <>
-      <header className='relative overflow-hidden border-b border-line pb-14 pt-40 md:pb-20 md:pt-48'>
-        <div className='absolute inset-0 [mask-image:linear-gradient(to_bottom,#000_30%,transparent)]'>
-          <ShapeGrid />
-        </div>
-
-        <div className='container-x relative'>
+      <header className='border-b border-line pb-14 pt-40 md:pb-20 md:pt-48'>
+        <div className='container-x'>
           <p className='label animate-fade-up mb-5'>
             <span className='text-accent'>Busca</span>{count && <> &mdash; {count}</>}
           </p>

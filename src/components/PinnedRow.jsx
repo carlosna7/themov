@@ -106,7 +106,7 @@ export default function PinnedRow({ movies, number, eyebrow, title }) {
       >
         <div className='container-x'>
           <SectionHeader number={number} eyebrow={eyebrow} title={title}>
-            <p className='max-w-xs text-sm font-light leading-relaxed text-muted'>
+            <p className='max-w-xs text-base font-light leading-relaxed text-muted'>
               Continue rolando para passar pelos filmes. A página segue depois do último.
             </p>
           </SectionHeader>
@@ -135,9 +135,9 @@ export default function PinnedRow({ movies, number, eyebrow, title }) {
                   </span>
 
                   <div data-info className='absolute inset-x-0 bottom-0 p-6 md:p-8'>
-                    <p className='font-mono text-[11px] tracking-[0.2em] text-accent'>{String(i + 1).padStart(2, '0')}</p>
+                    <p className='font-mono text-[13px] tracking-[0.14em] text-accent'>{String(i + 1).padStart(2, '0')}</p>
                     <h3 className='mt-2 text-2xl font-semibold leading-tight tracking-[-0.03em] md:text-4xl'>{movie.title}</h3>
-                    <p className='mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/70'>
+                    <p className='mt-3 font-mono text-[13px] uppercase tracking-[0.12em] text-white/75'>
                       {movie.release_date?.slice(0, 4)} &nbsp;&middot;&nbsp; &#9733; {movie.vote_average?.toFixed(1)}
                     </p>
                   </div>
@@ -147,7 +147,7 @@ export default function PinnedRow({ movies, number, eyebrow, title }) {
           </div>
 
           {horizontal && (
-            <div className='mt-[clamp(24px,4vh,40px)] flex items-center gap-4 font-mono text-[11px] tracking-[0.16em] text-muted'>
+            <div className='mt-[clamp(24px,4vh,40px)] flex items-center gap-4 font-mono text-[13px] tracking-[0.16em] text-muted'>
               <span><b ref={countRef} className='font-semibold text-ink'>01</b> / {String(movies.length).padStart(2, '0')}</span>
               <span className='relative h-[2px] max-w-[320px] flex-1 overflow-hidden bg-line'>
                 <span ref={fillRef} className='absolute inset-0 origin-left scale-x-0 bg-accent' />

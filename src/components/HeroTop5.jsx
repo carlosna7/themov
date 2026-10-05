@@ -1,9 +1,7 @@
 'use client'
 import { useState } from 'react';
 import Link from 'next/link';
-import { FiArrowUpRight } from 'react-icons/fi';
 import { imageUrl } from '@/lib/tmdb';
-import ShapeGrid from './ShapeGrid';
 
 const SLIDE_MS = 7000;
 
@@ -32,10 +30,6 @@ export default function HeroTop5({ movies }) {
       <div className='absolute inset-0 bg-gradient-to-r from-paper via-paper/70 to-transparent' />
       <div className='absolute inset-0 bg-gradient-to-t from-paper via-transparent to-paper/40' />
 
-      <div className='absolute inset-0 [mask-image:linear-gradient(to_right,#000_0%,#000_40%,transparent_75%)]'>
-        <ShapeGrid />
-      </div>
-
       <span
         key={`glyph-${active}`}
         aria-hidden
@@ -51,10 +45,12 @@ export default function HeroTop5({ movies }) {
           </p>
 
           <h1 className='display animate-fade-up text-[clamp(48px,7.5vw,112px)] [animation-delay:80ms]'>
-            {movie.title}
+            <Link href={`/pages/movie/${movie.id}`} className='transition-colors hover:text-accent'>
+              {movie.title}
+            </Link>
           </h1>
 
-          <p className='animate-fade-up mt-6 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs uppercase tracking-[0.18em] text-muted [animation-delay:160ms]'>
+          <p className='animate-fade-up mt-6 flex flex-wrap gap-x-5 gap-y-1 font-mono text-sm uppercase tracking-[0.14em] text-muted [animation-delay:160ms]'>
             <span>{movie.release_date?.slice(0, 4)}</span>
             <span className='text-accent'>&#9733; {movie.vote_average?.toFixed(1)}</span>
             <span>{movie.original_language}</span>
@@ -66,11 +62,6 @@ export default function HeroTop5({ movies }) {
             </p>
           )}
 
-          <div className='animate-fade-up mt-8 [animation-delay:320ms]'>
-            <Link href={`/pages/movie/${movie.id}`} className='btn-solid'>
-              Ver ficha completa <FiArrowUpRight />
-            </Link>
-          </div>
         </div>
 
         <ol className='mt-12 grid grid-cols-5 gap-3 md:gap-6'>
@@ -87,10 +78,10 @@ export default function HeroTop5({ movies }) {
                     />
                   )}
                 </span>
-                <span className={`mt-3 hidden font-mono text-[11px] tracking-[0.16em] md:block ${i === active ? 'text-ink' : 'text-muted group-hover:text-ink'} transition-colors`}>
+                <span className={`mt-3 hidden font-mono text-[13px] tracking-[0.12em] md:block ${i === active ? 'text-ink' : 'text-muted group-hover:text-ink'} transition-colors`}>
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <span className={`mt-1 hidden truncate text-sm md:block ${i === active ? 'text-ink' : 'text-muted group-hover:text-ink'} transition-colors`}>
+                <span className={`mt-1 hidden truncate text-base md:block ${i === active ? 'text-ink' : 'text-muted group-hover:text-ink'} transition-colors`}>
                   {m.title}
                 </span>
               </button>

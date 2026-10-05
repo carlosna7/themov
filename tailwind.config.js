@@ -15,6 +15,7 @@ module.exports = {
         line: '#24272b',
         accent: '#95abb8',
         'accent-strong': '#c3d4de',
+        leaf: '#5fd68a',
       },
       fontFamily: {
         sans: ['var(--font-aeonik)', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],

@@ -21,16 +21,16 @@ const MovieCard = ({ movie }) => {
         )}
 
         {movie.vote_average > 0 && (
-          <span className='absolute left-3 top-3 rounded-full bg-black/60 px-2.5 py-1 font-mono text-[11px] text-ink backdrop-blur-md'>
+          <span className='absolute left-3 top-3 rounded-full bg-black/60 px-2.5 py-1 font-mono text-[13px] text-ink backdrop-blur-md'>
             <span className='text-accent'>&#9733;</span> {movie.vote_average.toFixed(1)}
           </span>
         )}
       </div>
 
-      <h3 className='mt-4 truncate text-[15px] font-medium tracking-[-0.01em] transition-colors group-hover:text-accent'>
+      <h3 className='mt-4 truncate text-base font-medium tracking-[-0.01em] transition-colors group-hover:text-accent'>
         {movie.title}
       </h3>
-      <p className='mt-1 font-mono text-[11px] uppercase tracking-[0.16em] text-muted'>{year || 'Sem data'}</p>
+      <p className='mt-1 font-mono text-[13px] uppercase tracking-[0.12em] text-muted'>{year || 'Sem data'}</p>
     </Link>
   )
 }
