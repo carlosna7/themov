@@ -1,13 +1,22 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BiSearch } from 'react-icons/bi';
+import { FiSearch } from 'react-icons/fi';
 
 export default function Navbar() {
   const [search, setSearch] = useState("")
+  const [scrolled, setScrolled] = useState(false)
 
   const router = useRouter();
+
+  // transparente sobre o banner, ganha fundo depois que a página desce
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
@@ -20,26 +29,22 @@ export default function Navbar() {
   };
 
   return (
-    <nav className='sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm'>
-      <div className='mx-auto max-w-[1400px] px-4 sm:px-8 h-16 flex items-center justify-between gap-6'>
-        <Link href="/" className='group flex items-center gap-2'>
-          <span className='h-2.5 w-2.5 rounded-full bg-accent group-hover:animate-pulse' />
-          <span className='display text-[28px] leading-none tracking-wide'>Themov</span>
+    <nav className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${scrolled ? 'border-b border-line bg-paper/90 backdrop-blur-md' : 'border-b border-transparent'}`}>
+      <div className='container-x h-[72px] flex items-center justify-between gap-6'>
+        <Link href="/" className='text-2xl font-bold tracking-[-0.04em] hover:text-accent transition-colors'>
+          themov<span className='text-accent'>.</span>
         </Link>
 
-        <form onSubmit={handleSubmit} className='flex items-center gap-2 border-b border-muted/50 focus-within:border-ink transition-colors w-full max-w-[260px]'>
+        <form onSubmit={handleSubmit} className='flex w-full max-w-[280px] items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 transition-colors focus-within:border-accent'>
+          <FiSearch className='h-4 w-4 shrink-0 text-muted' />
           <input
-            className='w-full bg-transparent py-1.5 font-mono text-sm placeholder:text-muted focus:outline-none'
+            className='w-full bg-transparent py-2 text-sm placeholder:text-muted focus:outline-none'
             type='text'
-            placeholder='buscar um filme'
+            placeholder='Buscar um filme'
             aria-label='Buscar um filme'
             onChange={(evt) => setSearch(evt.target.value)}
             value={search}
           />
-
-          <button type='submit' aria-label='Buscar' className='text-muted hover:text-accent transition-colors'>
-            <BiSearch className='w-5 h-5' />
-          </button>
         </form>
       </div>
     </nav>

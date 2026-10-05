@@ -1,8 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
+import { FiArrowLeft } from 'react-icons/fi';
 import { tmdb, imageUrl } from '@/lib/tmdb';
+import Carousel from '@/components/Carousel';
+import Reveal from '@/components/Reveal';
 
 const money = (value) =>
   value
@@ -17,34 +19,30 @@ const date = (iso) =>
 
 const Movie = () => {
   const { id } = useParams()
+  const router = useRouter()
   const [movie, setMovie] = useState(null)
+  const [similar, setSimilar] = useState([])
   const [error, setError] = useState(null)
 
   useEffect(() => {
     tmdb(`/movie/${id}`)
       .then(setMovie)
       .catch((err) => setError(err.message));
+
+    tmdb(`/movie/${id}/recommendations`)
+      .then((data) => setSimilar(data.results.filter((m) => m.poster_path)))
+      .catch(() => setSimilar([]));
   }, [id]);
 
   if (error) {
     return (
-      <div className='mx-auto max-w-[1400px] px-4 sm:px-8 py-16 font-mono text-sm text-accent'>
+      <div className='container-x pt-40 font-mono text-sm text-accent'>
         Não deu para carregar o filme: {error}
       </div>
     )
   }
 
-  if (!movie) {
-    return (
-      <div className='animate-pulse'>
-        <div className='h-[38vh] bg-line/60' />
-        <div className='mx-auto max-w-[1400px] px-4 sm:px-8 py-10 space-y-4'>
-          <div className='h-4 w-40 bg-line' />
-          <div className='h-20 w-2/3 bg-line' />
-        </div>
-      </div>
-    )
-  }
+  if (!movie) return <div className='h-[100svh] animate-pulse bg-surface' />;
 
   const backdrop = imageUrl(movie.backdrop_path, 'w1280');
   const poster = imageUrl(movie.poster_path, 'w500');
@@ -52,7 +50,8 @@ const Movie = () => {
   const showOriginal = movie.original_title && movie.original_title !== movie.title;
 
   const facts = [
-    ['Nota', movie.vote_average ? `${movie.vote_average.toFixed(1)} / 10  (${movie.vote_count.toLocaleString('pt-BR')} votos)` : '—'],
+    ['Nota', movie.vote_average ? `${movie.vote_average.toFixed(1)} / 10` : '—'],
+    ['Votos', movie.vote_count ? movie.vote_count.toLocaleString('pt-BR') : '—'],
     ['Estreia', date(movie.release_date)],
     ['Duração', runtime(movie.runtime)],
     ['Orçamento', money(movie.budget)],
@@ -62,61 +61,68 @@ const Movie = () => {
 
   return (
     <article>
-      <div className='relative h-[38vh] min-h-[240px] overflow-hidden bg-line'>
+      {/* 01 — banner */}
+      <section className='relative flex min-h-[86svh] items-end overflow-hidden'>
         {backdrop && (
-          <img src={backdrop} alt='' className='h-full w-full object-cover object-top opacity-70 saturate-[0.85]' />
+          <img src={backdrop} alt='' className='absolute inset-0 h-full w-full object-cover opacity-50' />
         )}
-        <div className='absolute inset-0 bg-gradient-to-t from-paper via-paper/30 to-transparent' />
-      </div>
+        <div className='absolute inset-0 bg-gradient-to-t from-paper via-paper/50 to-paper/30' />
+        <div className='absolute inset-0 bg-gradient-to-r from-paper/80 to-transparent' />
 
-      <div className='relative mx-auto -mt-28 grid max-w-[1400px] gap-10 px-4 sm:px-8 md:-mt-40 md:grid-cols-[minmax(0,300px)_1fr] lg:gap-16'>
-        <div className='w-40 sm:w-52 md:w-full'>
-          {poster && (
-            <img src={poster} alt={movie.title} className='w-full shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)]' />
-          )}
-        </div>
+        <div className='container-x relative pb-14 pt-40 md:pb-20'>
+          <button onClick={() => (window.history.length > 1 ? router.back() : router.push('/'))}className='label animate-fade-up mb-10 inline-flex items-center gap-2 transition-colors hover:text-accent'>
+            <FiArrowLeft /> Voltar
+          </button>
 
-        <div className='md:pt-44'>
-          <Link href='/' className='label hover:text-accent transition-colors'>&larr; Voltar</Link>
-
-          <p className='label mt-8'>
-            {[year, movie.genres?.map((g) => g.name).join(' / ')].filter(Boolean).join('  ·  ')}
+          <p className='label animate-fade-up mb-5 [animation-delay:60ms]'>
+            <span className='text-accent'>{year}</span>
+            {movie.genres?.length > 0 && <> &mdash; {movie.genres.map((g) => g.name).join(' / ')}</>}
           </p>
 
-          <h1 className='display mt-3 text-[clamp(48px,8vw,120px)]'>{movie.title}</h1>
+          <h1 className='display animate-fade-up max-w-5xl text-[clamp(48px,8vw,128px)] [animation-delay:120ms]'>{movie.title}</h1>
 
           {showOriginal && (
-            <p className='mt-3 font-serif text-xl italic text-muted'>{movie.original_title}</p>
+            <p className='animate-fade-up mt-4 text-lg font-light italic text-muted [animation-delay:180ms]'>{movie.original_title}</p>
           )}
 
           {movie.tagline && (
-            <p className='mt-8 max-w-2xl border-l-2 border-accent pl-5 font-serif text-2xl italic leading-snug'>
+            <p className='animate-fade-up mt-8 max-w-2xl text-xl font-light leading-snug text-ink/85 md:text-2xl [animation-delay:240ms]'>
               {movie.tagline}
             </p>
           )}
-
-          <div className='mt-12 grid gap-12 lg:grid-cols-[1fr_340px]'>
-            <section>
-              <h2 className='label mb-4'>Sinopse</h2>
-              <p className='max-w-[62ch] font-serif text-lg leading-relaxed text-ink/90'>
-                {movie.overview || 'Sem sinopse em português para este filme.'}
-              </p>
-            </section>
-
-            <section>
-              <h2 className='label mb-4'>Ficha técnica</h2>
-              <dl className='border-t border-line'>
-                {facts.map(([term, value]) => (
-                  <div key={term} className='flex justify-between gap-4 border-b border-line py-3 text-sm'>
-                    <dt className='text-muted'>{term}</dt>
-                    <dd className='text-right font-mono'>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          </div>
         </div>
-      </div>
+      </section>
+
+      {/* 02 — sinopse e ficha */}
+      <section className='container-x grid gap-12 py-16 md:grid-cols-[280px_1fr] md:py-24 lg:grid-cols-[320px_1fr_320px] lg:gap-16'>
+        <Reveal>
+          {poster && <img src={poster} alt={movie.title} className='w-48 rounded-[16px] md:w-full' />}
+        </Reveal>
+
+        <Reveal delay={100}>
+          <p className='label mb-5'><span className='text-accent'>01</span> &mdash; Sinopse</p>
+          <p className='max-w-[60ch] text-lg font-light leading-relaxed text-ink/90 md:text-xl'>
+            {movie.overview || 'Sem sinopse em português para este filme.'}
+          </p>
+        </Reveal>
+
+        <Reveal delay={200} className='md:col-span-2 lg:col-span-1'>
+          <p className='label mb-5'><span className='text-accent'>02</span> &mdash; Ficha técnica</p>
+          <dl className='border-t border-line'>
+            {facts.map(([term, value]) => (
+              <div key={term} className='flex justify-between gap-4 border-b border-line py-3.5 text-sm'>
+                <dt className='text-muted'>{term}</dt>
+                <dd className='text-right font-medium'>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </section>
+
+      {/* 03 — recomendações */}
+      {similar.length > 0 && (
+        <Carousel number='03' eyebrow='Recomendações' title='Se você gostou deste' movies={similar} />
+      )}
     </article>
   )
 }

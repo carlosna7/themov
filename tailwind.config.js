@@ -8,16 +8,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        paper: '#13110f',
-        ink: '#ece3d2',
-        muted: '#8c8376',
-        line: '#2b2723',
-        accent: '#e2513a',
+        paper: '#0d0e10',
+        surface: '#16181b',
+        ink: '#eef0f2',
+        muted: '#8a9097',
+        line: '#24272b',
+        accent: '#95abb8',
+        'accent-strong': '#c3d4de',
       },
       fontFamily: {
-        sans: ['var(--font-archivo)', 'sans-serif'],
-        serif: ['var(--font-newsreader)', 'serif'],
-        mono: ['var(--font-plex-mono)', 'monospace'],
+        sans: ['var(--font-aeonik)', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
     },
   },

@@ -1,41 +1,53 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { tmdb } from '@/lib/tmdb';
-import { MovieGrid, MovieGridSkeleton } from '@/components/MovieGrid';
+import HeroTop5, { HeroSkeleton } from '@/components/HeroTop5';
+import PinnedRow from '@/components/PinnedRow';
+import Carousel from '@/components/Carousel';
 
 export default function Home() {
-  const [topMovies, setTopMovies] = useState([]);
+  const [lists, setLists] = useState(null);
   const [error, setError] = useState(null);
-  const [today, setToday] = useState('');
 
   useEffect(() => {
-    setToday(new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }));
-
-    tmdb('/movie/popular')
-      .then((data) => setTopMovies(data.results))
+    Promise.all([
+      tmdb('/trending/movie/week'),
+      tmdb('/movie/popular'),
+      tmdb('/movie/now_playing', { region: 'BR' }),
+      tmdb('/movie/top_rated'),
+      tmdb('/movie/upcoming', { region: 'BR' }),
+    ])
+      .then(([trending, popular, nowPlaying, topRated, upcoming]) => setLists({
+        top5: trending.results.filter((m) => m.backdrop_path).slice(0, 5),
+        popular: popular.results.slice(0, 10),
+        nowPlaying: nowPlaying.results,
+        topRated: topRated.results,
+        upcoming: upcoming.results,
+      }))
       .catch((err) => setError(err.message));
   }, [])
 
+  if (error) {
+    return (
+      <div className='container-x pt-40 font-mono text-sm text-accent'>
+        Não deu para carregar os filmes: {error}
+      </div>
+    )
+  }
+
+  if (!lists) return <HeroSkeleton />;
+
   return (
-    <div className='mx-auto max-w-[1400px] px-4 sm:px-8'>
-      <header className='grid gap-6 border-b border-line py-12 md:grid-cols-[1fr_320px] md:items-end md:py-16'>
-        <div>
-          <p className='label mb-4'>Programação{today && ` · ${today}`}</p>
-          <h1 className='display text-[clamp(56px,11vw,150px)]'>
-            Em cartaz<span className='text-accent'>.</span>
-          </h1>
-        </div>
+    <>
+      <HeroTop5 movies={lists.top5} />
 
-        <p className='font-serif text-lg italic leading-relaxed text-ink/80'>
-          Os vinte filmes mais procurados da semana segundo o TMDB. Escolha um pôster para abrir a ficha técnica.
-        </p>
-      </header>
+      <PinnedRow number='01' eyebrow='Populares' title='O que todo mundo está vendo' movies={lists.popular} />
 
-      <section className='pt-10'>
-        {error && <p className='font-mono text-sm text-accent'>Não deu para carregar os filmes: {error}</p>}
-        {!error && topMovies.length === 0 && <MovieGridSkeleton />}
-        {topMovies.length > 0 && <MovieGrid movies={topMovies} numbered />}
-      </section>
-    </div>
+      <Carousel number='02' eyebrow='Nos cinemas' title='Em cartaz agora' movies={lists.nowPlaying} />
+
+      <Carousel number='03' eyebrow='Crítica e público' title='Os mais bem avaliados' movies={lists.topRated} />
+
+      <Carousel number='04' eyebrow='Lançamentos' title='Chegando em breve' movies={lists.upcoming} />
+    </>
   )
 };

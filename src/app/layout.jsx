@@ -1,24 +1,18 @@
-import { Archivo, Newsreader, IBM_Plex_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import Navbar from '@/components/Navbar';
 import './globals.css'
 
-const archivo = Archivo({
-  subsets: ['latin'],
-  axes: ['wdth'],
-  variable: '--font-archivo',
-});
-
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  style: ['normal', 'italic'],
-  variable: '--font-newsreader',
-  adjustFontFallback: false,
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-plex-mono',
+const aeonik = localFont({
+  src: [
+    { path: '../fonts/AeonikProTRIAL-Light.otf', weight: '300', style: 'normal' },
+    { path: '../fonts/AeonikProTRIAL-LightItalic.otf', weight: '300', style: 'italic' },
+    { path: '../fonts/AeonikProTRIAL-Regular.otf', weight: '400', style: 'normal' },
+    { path: '../fonts/AeonikProTRIAL-RegularItalic.otf', weight: '400', style: 'italic' },
+    { path: '../fonts/AeonikProTRIAL-Medium.otf', weight: '500', style: 'normal' },
+    { path: '../fonts/AeonikProTRIAL-SemiBold.otf', weight: '600', style: 'normal' },
+    { path: '../fonts/AeonikProTRIAL-Bold.otf', weight: '700', style: 'normal' },
+  ],
+  variable: '--font-aeonik',
 });
 
 export const metadata = {
@@ -28,15 +22,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-br" className={`${archivo.variable} ${newsreader.variable} ${plexMono.variable}`}>
+    <html lang="pt-br" className={aeonik.variable}>
       <body className='font-sans min-h-screen flex flex-col'>
         <Navbar />
 
         <main className='flex-1'>{children}</main>
 
         <footer className='border-t border-line mt-24'>
-          <div className='mx-auto max-w-[1400px] px-4 sm:px-8 py-8 flex flex-col sm:flex-row justify-between gap-2 label'>
-            <span>Themov</span>
+          <div className='container-x py-10 flex flex-col sm:flex-row justify-between gap-3 label'>
+            <span>Themov &copy; {new Date().getFullYear()}</span>
             <span>Dados fornecidos pelo TMDB. Não endossado ou certificado pelo TMDB.</span>
           </div>
         </footer>
