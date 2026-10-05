@@ -7,7 +7,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <Link href={`/pages/movie/${movie.id}`} className='group block select-none'>
-      <div className='relative aspect-[2/3] overflow-hidden rounded-[14px] bg-surface'>
+      <div className='relative aspect-[2/3] overflow-hidden rounded-[14px] bg-surface ring-0 ring-accent transition-shadow duration-300 group-hover:ring-2'>
         {poster ? (
           <img
             src={poster}

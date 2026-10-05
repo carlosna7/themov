@@ -33,15 +33,15 @@ export default function HeroTop5({ movies }) {
       <span
         key={`glyph-${active}`}
         aria-hidden
-        className='animate-fade-up pointer-events-none absolute right-[clamp(-20px,3vw,40px)] top-[90px] select-none text-[clamp(160px,22vw,380px)] font-medium leading-none tracking-[-0.04em] text-accent/20'
+        className='animate-fade-up pointer-events-none absolute right-[clamp(-20px,3vw,40px)] top-[90px] select-none text-[clamp(160px,22vw,380px)] font-medium leading-none tracking-[-0.04em] text-accent/25'
       >
         {String(active + 1).padStart(2, '0')}
       </span>
 
       <div className='container-x relative z-10 flex h-full flex-col justify-end pb-14 md:pb-20'>
         <div key={movie.id} className='max-w-2xl'>
-          <p className='label animate-fade-up mb-5'>
-            <span className='text-accent'>Top 5</span> &mdash; mais vistos da semana
+          <p className='label animate-fade-up mb-5 text-accent'>
+            <b className='font-semibold'>Top 5</b> &mdash; mais vistos da semana
           </p>
 
           <h1 className='display animate-fade-up text-[clamp(48px,7.5vw,112px)] [animation-delay:80ms]'>

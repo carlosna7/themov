@@ -7,6 +7,10 @@
     color-scheme: dark;
   }
 
+  html {
+    scrollbar-color: #00a8ff #0d0e10;
+  }
+
   body {
     @apply bg-paper text-ink antialiased;
     overflow-x: hidden;
@@ -37,11 +41,11 @@
   }
 
   .btn-solid {
-    @apply btn bg-ink font-medium text-paper hover:bg-accent;
+    @apply btn bg-leaf font-medium text-paper hover:brightness-110;
   }
 
   .btn-outline {
-    @apply btn border border-white/25 text-ink hover:border-accent hover:bg-accent hover:text-paper;
+    @apply btn border border-leaf/60 text-leaf hover:bg-leaf hover:text-paper;
   }
 
   .no-scrollbar {

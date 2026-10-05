@@ -29,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${scrolled ? 'border-b border-line bg-paper/90 backdrop-blur-md' : 'border-b border-transparent'}`}>
+    <nav className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${scrolled ? 'border-b border-accent/20 bg-paper/90 backdrop-blur-md' : 'border-b border-transparent'}`}>
       <div className='container-x h-[72px] flex items-center justify-between gap-6'>
         <Link href="/" className='text-2xl font-bold tracking-[-0.04em] transition-opacity hover:opacity-80'>
           the<span className='text-accent'>Mov</span><span className='text-leaf'>.</span>

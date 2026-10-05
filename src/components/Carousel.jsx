@@ -5,7 +5,7 @@ import MovieCard from './MovieCard';
 import SectionHeader from './SectionHeader';
 import Reveal from './Reveal';
 
-export default function Carousel({ movies, number, eyebrow, title }) {
+export default function Carousel({ movies, eyebrow, title }) {
   const scrollerRef = useRef(null);
   const fillRef = useRef(null);
   const drag = useRef(null);
@@ -56,12 +56,12 @@ export default function Carousel({ movies, number, eyebrow, title }) {
     }
   };
 
-  const arrow = 'flex h-11 w-11 items-center justify-center rounded-full border border-white/20 transition hover:border-accent hover:bg-accent hover:text-paper disabled:pointer-events-none disabled:opacity-30';
+  const arrow = 'flex h-11 w-11 items-center justify-center rounded-full border border-leaf/60 text-leaf transition hover:bg-leaf hover:text-paper disabled:pointer-events-none disabled:opacity-30';
 
   return (
     <section className='py-16 md:py-24'>
       <div className='container-x'>
-        <SectionHeader number={number} eyebrow={eyebrow} title={title}>
+        <SectionHeader eyebrow={eyebrow} title={title}>
           <div className='flex gap-3'>
             <button className={arrow} onClick={() => scrollByPage(-1)} disabled={edges.start} aria-label='Anteriores'>
               <FiArrowLeft />

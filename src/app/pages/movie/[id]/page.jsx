@@ -5,6 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { tmdb, imageUrl } from '@/lib/tmdb';
 import Carousel from '@/components/Carousel';
 import Reveal from '@/components/Reveal';
+import { Blue, Green } from '@/components/Highlight';
 
 const money = (value) =>
   value
@@ -70,7 +71,7 @@ const Movie = () => {
         <div className='absolute inset-0 bg-gradient-to-r from-paper/80 to-transparent' />
 
         <div className='container-x relative pb-14 pt-40 md:pb-20'>
-          <button onClick={() => (window.history.length > 1 ? router.back() : router.push('/'))}className='label animate-fade-up mb-10 inline-flex items-center gap-2 transition-colors hover:text-accent'>
+          <button onClick={() => (window.history.length > 1 ? router.back() : router.push('/'))} className='label animate-fade-up mb-10 inline-flex items-center gap-2 transition-colors hover:text-accent'>
             <FiArrowLeft /> Voltar
           </button>
 
@@ -86,7 +87,7 @@ const Movie = () => {
           )}
 
           {movie.tagline && (
-            <p className='animate-fade-up mt-8 max-w-2xl text-xl font-light leading-snug text-ink/85 md:text-2xl [animation-delay:240ms]'>
+            <p className='animate-fade-up mt-8 max-w-2xl border-l-2 border-accent pl-5 text-xl font-light leading-snug text-ink/85 md:text-2xl [animation-delay:240ms]'>
               {movie.tagline}
             </p>
           )}
@@ -100,19 +101,19 @@ const Movie = () => {
         </Reveal>
 
         <Reveal delay={100}>
-          <p className='label mb-5'><span className='text-accent'>01</span> &mdash; Sinopse</p>
+          <p className='label mb-5 font-semibold text-accent'>Sinopse</p>
           <p className='max-w-[60ch] text-lg font-light leading-relaxed text-ink/90 md:text-xl'>
             {movie.overview || 'Sem sinopse em português para este filme.'}
           </p>
         </Reveal>
 
         <Reveal delay={200} className='md:col-span-2 lg:col-span-1'>
-          <p className='label mb-5'><span className='text-accent'>02</span> &mdash; Ficha técnica</p>
+          <p className='label mb-5 font-semibold text-accent'>Ficha técnica</p>
           <dl className='border-t border-line'>
             {facts.map(([term, value]) => (
               <div key={term} className='flex justify-between gap-4 border-b border-line py-3.5 text-sm'>
                 <dt className='text-muted'>{term}</dt>
-                <dd className='text-right font-medium'>{value}</dd>
+                <dd className={`text-right font-medium ${term === 'Nota' ? 'text-accent' : ''}`}>{value}</dd>
               </div>
             ))}
           </dl>
@@ -121,7 +122,7 @@ const Movie = () => {
 
       {/* 03 — recomendações */}
       {similar.length > 0 && (
-        <Carousel number='03' eyebrow='Recomendações' title='Se você gostou deste' movies={similar} />
+        <Carousel eyebrow='Recomendações' title={<>Se você <Blue>gostou</Blue> <Green>deste</Green></>} movies={similar} />
       )}
     </article>
   )

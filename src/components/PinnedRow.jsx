@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
  * e o scroll vertical desliza os cards para o lado. A página só continua descendo
  * depois que o último card aparece.
  */
-export default function PinnedRow({ movies, number, eyebrow, title }) {
+export default function PinnedRow({ movies, eyebrow, title }) {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const countRef = useRef(null);
@@ -105,7 +105,7 @@ export default function PinnedRow({ movies, number, eyebrow, title }) {
         className={horizontal ? 'flex h-[100svh] flex-col justify-center overflow-hidden pb-8 pt-[96px]' : 'py-20'}
       >
         <div className='container-x'>
-          <SectionHeader number={number} eyebrow={eyebrow} title={title}>
+          <SectionHeader eyebrow={eyebrow} title={title}>
             <p className='max-w-xs text-base font-light leading-relaxed text-muted'>
               Continue rolando para passar pelos filmes. A página segue depois do último.
             </p>
@@ -130,7 +130,7 @@ export default function PinnedRow({ movies, number, eyebrow, title }) {
                   )}
                   <div className='absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent' />
 
-                  <span className='absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-lg backdrop-blur-md transition duration-500 group-hover:rotate-45 group-hover:bg-accent group-hover:text-paper'>
+                  <span className='absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-lg backdrop-blur-md transition duration-500 group-hover:rotate-45 group-hover:bg-leaf group-hover:text-paper'>
                     <FiArrowUpRight />
                   </span>
 

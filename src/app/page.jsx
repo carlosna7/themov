@@ -4,6 +4,7 @@ import { tmdb } from '@/lib/tmdb';
 import HeroTop5, { HeroSkeleton } from '@/components/HeroTop5';
 import PinnedRow from '@/components/PinnedRow';
 import Carousel from '@/components/Carousel';
+import { Blue, Green } from '@/components/Highlight';
 
 export default function Home() {
   const [lists, setLists] = useState(null);
@@ -41,13 +42,13 @@ export default function Home() {
     <>
       <HeroTop5 movies={lists.top5} />
 
-      <PinnedRow number='01' eyebrow='Populares' title='O que todo mundo está vendo' movies={lists.popular} />
+      <PinnedRow eyebrow='Populares' title={<>O que todo <Blue>mundo</Blue> está <Green>vendo</Green></>} movies={lists.popular} />
 
-      <Carousel number='02' eyebrow='Nos cinemas' title='Em cartaz agora' movies={lists.nowPlaying} />
+      <Carousel eyebrow='Nos cinemas' title={<>Em <Blue>cartaz</Blue> <Green>agora</Green></>} movies={lists.nowPlaying} />
 
-      <Carousel number='03' eyebrow='Crítica e público' title='Os mais bem avaliados' movies={lists.topRated} />
+      <Carousel eyebrow='Crítica e público' title={<>Os <Blue>mais</Blue> bem <Green>avaliados</Green></>} movies={lists.topRated} />
 
-      <Carousel number='04' eyebrow='Lançamentos' title='Chegando em breve' movies={lists.upcoming} />
+      <Carousel eyebrow='Lançamentos' title={<><Blue>Chegando</Blue> em <Green>breve</Green></>} movies={lists.upcoming} />
     </>
   )
 };
