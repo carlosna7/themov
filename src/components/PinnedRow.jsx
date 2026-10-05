@@ -54,7 +54,9 @@ export default function PinnedRow({ movies, eyebrow, title }) {
           scrub: 1,
           invalidateOnRefresh: true,
           refreshPriority: 1,
+          // o scrub ainda pode disparar um quadro depois que a seção sai da tela (troca de página)
           onUpdate: (self) => {
+            if (!countRef.current || !fillRef.current) return;
             const index = Math.round(self.progress * (cards.length - 1)) + 1;
             countRef.current.textContent = String(index).padStart(2, '0');
             fillRef.current.style.transform = `scaleX(${self.progress})`;
